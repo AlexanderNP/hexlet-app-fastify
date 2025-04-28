@@ -14,14 +14,16 @@ const users = [
     post: {
       id: 2,
       title: "Some Title",
-    }
+    },
+    name: "Vasily"
   },
   {
     id: 2,
     post: {
       id: 2,
       title: "Some Title",
-    }
+    },
+    name: "Sasha"
   },
 ];
 
@@ -47,7 +49,19 @@ app.post("/user", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.view('src/views/index', { users });
+  res.view('src/views/users/index', { users });
+});
+
+app.get("/user/:id", (req, res) => {
+  const { id } = req.params;
+
+  const user = users.find((item) => item.id === Number(id));
+
+  if (user) {
+    res.view('src/views/users/user', { user });
+  } else {
+    res.code(404).send({message: "Пользователь не найден"});
+  }
 });
 
 app.listen({ port }, () => {

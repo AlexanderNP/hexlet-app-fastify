@@ -1,0 +1,8 @@
+extends ../layouts/index.pug
+
+block content
+  each user in users
+    ul.user-list
+      li
+        a(href=`/user/${user.id}`)= `Пользователь с id: ${user.id}`
+        p= `Названия поста ${user.post.title}`
