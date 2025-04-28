@@ -1,7 +1,12 @@
 import fastify from "fastify";
+import view from '@fastify/view';
+import pug from 'pug';
 
 const app = fastify();
 const port = 3000;
+
+// Подключаем pug через плагин
+await app.register(view, { engine: { pug } });
 
 const users = [
   {
@@ -39,6 +44,10 @@ app.get("/users/:userId/post/:postId", (req, res) => {
 
 app.post("/user", (req, res) => {
   res.send(`Holla ${JSON.stringify(req.body.name)}`);
+});
+
+app.get("/", (req, res) => {
+  res.view('src/views/index', { users });
 });
 
 app.listen({ port }, () => {
