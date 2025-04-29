@@ -1,0 +1,12 @@
+extends ../layouts/index.pug
+
+block content
+  form(role = 'form' method = 'GET' action = '/courses')
+    input(type = 'search', name = 'title', value = title)
+  if !courses.length
+    p= `Курс не найден :()`
+  else
+    each course in courses
+      ul.courses-list
+        li
+          p= `Название курса: ${course.title}`

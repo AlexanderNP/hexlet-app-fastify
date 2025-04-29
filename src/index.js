@@ -27,6 +27,25 @@ const users = [
   },
 ];
 
+const courses = [
+  {
+    id: "1",
+    title: "JavaScript",
+  },
+  {
+    id: "2",
+    title: "Backend",
+  },
+  {
+    id: "3",
+    title: "Python",
+  },
+  {
+    id: "4",
+    title: "Java",
+  }
+]
+
 app.get("/hello", (req, res) => {
   const name = req.query?.name ?? "World";
   res.send(`Hello ${name}!`);
@@ -62,6 +81,14 @@ app.get("/user/:id", (req, res) => {
   } else {
     res.code(404).send({message: "Пользователь не найден"});
   }
+});
+
+app.get("/courses", (req, res) => {
+  const { title = "" } = req.query;
+
+  const filterCourses = courses.filter(item => item.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()));
+
+  res.view('src/views/courses/index', { title, courses: filterCourses });
 });
 
 app.listen({ port }, () => {
