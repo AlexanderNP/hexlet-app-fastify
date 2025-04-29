@@ -1,0 +1,8 @@
+if error
+  p= error.message
+form(method = 'POST' action = '/add-courses')
+  label Название курса
+    input(type = 'text' name = 'title' value = title required = true)
+  label Описание
+    input(type = 'text' name = 'description' value = description required = true)
+  input(type="submit" value="Отправить")

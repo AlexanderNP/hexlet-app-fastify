@@ -1,9 +1,10 @@
-extends ../layouts/index.pug
-
-block content
-  form(method = 'POST' action = '/add-user')
-    label Имя
-      input(type = 'text', name = 'name', required = true)
-    label Название поста
-      input(type = 'text', name = 'title', required = true)
-    input(type="submit" value="Отправить")
+if error
+  p= error.message
+form(method = 'POST' action = '/add-user')
+  label Имя
+    input(type = 'text' name = 'name' value = name required = true)
+  label Email
+    input(type = 'email' name = 'email' value = email required = true)
+  label Название поста
+    input(type = 'text' name = 'title' value = title required = true)
+  input(type="submit" value="Отправить")
