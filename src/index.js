@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import view from '@fastify/view';
+import formbody from '@fastify/formbody';
 import pug from 'pug';
 
 const app = fastify();
@@ -7,6 +8,7 @@ const port = 3000;
 
 // Подключаем pug через плагин
 await app.register(view, { engine: { pug } });
+await app.register(formbody);
 
 const users = [
   {
@@ -89,6 +91,25 @@ app.get("/courses", (req, res) => {
   const filterCourses = courses.filter(item => item.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()));
 
   res.view('src/views/courses/index', { title, courses: filterCourses });
+});
+
+app.get("/add-user", (req, res) => {
+  res.view('src/views/users/add');
+});
+
+app.post("/add-user", (req, res) => {
+  const user = {
+    id: Math.random(),
+    name: req.body.name,
+    post: {
+      id: Math.random(),
+      title: req.body.title,
+    }
+  };
+
+  users.push(user);
+
+  res.redirect('/');
 });
 
 app.listen({ port }, () => {
