@@ -3,6 +3,7 @@ import view from '@fastify/view';
 import formbody from '@fastify/formbody';
 import pug from 'pug';
 import yup from 'yup';
+import routes from './routes.js'
 
 const app = fastify();
 const port = 3000;
@@ -55,27 +56,11 @@ const courses = [
   }
 ]
 
-app.get("/users/:userId/post/:postId", (req, res) => {
-  const { userId, postId } = req.params;
-
-  const userPost = users.find((item) => item.id === Number(userId) && item.post.id === Number(postId));
-
-  if (userPost) {
-    res.send(userPost.post.title);
-  } else {
-    res.code(404).send({message: "Пост не найден"});
-  }
+app.get(routes.homePath(), (req, res) => {
+  res.view('src/views/users/index', { users, route: routes.userPath });
 });
 
-app.post("/user", (req, res) => {
-  res.send(`Holla ${JSON.stringify(req.body.name)}`);
-});
-
-app.get("/", (req, res) => {
-  res.view('src/views/users/index', { users });
-});
-
-app.get("/user/:id", (req, res) => {
+app.get(routes.userPath(), (req, res) => {
   const { id } = req.params;
 
   const user = users.find((item) => item.id === Number(id));
@@ -87,19 +72,19 @@ app.get("/user/:id", (req, res) => {
   }
 });
 
-app.get("/courses", (req, res) => {
+app.get(routes.coursesPath(), (req, res) => {
   const { title = "" } = req.query;
 
   const filterCourses = courses.filter(item => item.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()));
 
-  res.view('src/views/courses/index', { title, courses: filterCourses });
+  res.view('src/views/courses/index', { title, courses: filterCourses, route: routes.coursesPath });
 });
 
-app.get("/add-user", (req, res) => {
-  res.view('src/views/users/add');
+app.get(routes.addUserPath(), (req, res) => {
+  res.view('src/views/users/add', { route: routes.addUserPath });
 });
 
-app.post('/add-user', {
+app.post(routes.addUserPath(), {
   attachValidation: true,
   schema: {
     body: yup.object({
@@ -122,6 +107,7 @@ app.post('/add-user', {
   if (req.validationError) {
     const data = {
       name, email, title,
+      route: routes.addUserPath,
       error: req.validationError,
     };
 
@@ -141,14 +127,14 @@ app.post('/add-user', {
 
   users.push(user);
 
-  res.redirect('/');
+  res.redirect(routes.homePath());
 });
 
-app.get("/add-courses", (req, res) => {
-  res.view('src/views/courses/add');
+app.get(routes.addCoursePath(), (req, res) => {
+  res.view('src/views/courses/add', { route: routes.addCoursePath });
 });
 
-app.post("/add-courses", {
+app.post(routes.addCoursePath(), {
   attachValidation: true,
   schema: {
     body: yup.object({
@@ -171,6 +157,7 @@ app.post("/add-courses", {
     const data = {
       title,
       description,
+      route: routes.addCoursePath,
       error: req.validationError,
     };
 
@@ -186,7 +173,7 @@ app.post("/add-courses", {
 
   courses.push(newCourse);
 
-  res.redirect('/courses');
+  res.redirect(routes.coursesPath());
 });
 
 app.listen({ port }, () => {

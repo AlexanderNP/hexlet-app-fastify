@@ -1,6 +1,6 @@
 if error
   p= error.message
-form(method = 'POST' action = '/add-courses')
+form(method = 'POST' action = action = route())
   label Название курса
     input(type = 'text' name = 'title' value = title required = true)
   label Описание

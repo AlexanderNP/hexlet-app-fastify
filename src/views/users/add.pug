@@ -1,6 +1,6 @@
 if error
   p= error.message
-form(method = 'POST' action = '/add-user')
+form(method = 'POST' action = route())
   label Имя
     input(type = 'text' name = 'name' value = name required = true)
   label Email
