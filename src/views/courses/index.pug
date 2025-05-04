@@ -1,7 +1,7 @@
 extends ../layouts/index.pug
 
 block content
-  form(role = 'form' method = 'GET' action = route())
+  form(role = 'form' method = 'GET' action = routes.coursesPath())
     input(type = 'search', name = 'title', value = title)
   if !courses.length
     p= `Курс не найден :()`

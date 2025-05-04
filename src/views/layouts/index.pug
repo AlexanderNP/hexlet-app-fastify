@@ -8,13 +8,15 @@ html(lang="ru")
       nav.menu
         ul.menu-list
           li.menu-item
-            a(href="/") Главная
+            a(href=routes.homePath()) Главная
           li.menu-item
-            a(href="/courses") Курсы
+            a(href=routes.usersPath()) Пользователи
           li.menu-item
-            a(href="/add-user") Добавить пользователя
+            a(href=routes.coursesPath()) Курсы
           li.menu-item
-            a(href="/add-courses") Добавить курс
+            a(href=routes.addUserPath()) Добавить пользователя
+          li.menu-item
+            a(href=routes.addCoursePath()) Добавить курс
     main.main
       block content
     footer.footer 

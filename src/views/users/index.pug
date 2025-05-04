@@ -4,5 +4,5 @@ block content
   each user in users
     ul.user-list
       li
-        a(href=route(user.id))= `Пользователь с id: ${user.id}`
+        a(href=routes.userPath(user.id))= `Пользователь с id: ${user.id}`
         p= `Названия поста ${user.post.title}`
