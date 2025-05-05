@@ -1,4 +1,6 @@
 import fastify from "fastify";
+import session from '@fastify/session';
+import fastifyCookie from '@fastify/cookie';
 import view from "@fastify/view";
 import formbody from "@fastify/formbody";
 import pug from "pug";
@@ -14,9 +16,16 @@ await app.register(view, {
 });
 
 await app.register(formbody);
+await app.register(fastifyCookie);
+await app.register(session, {
+  secret: 'a secret with minimum length of 32 characters',
+  cookie: { secure: false },
+});
 
 app.get(routes.homePath(), (req, res) => {
-  res.view("src/views/index");
+  const { email } = req.session;
+
+  res.view("src/views/index", { user: email });
 });
 
 controllers.forEach((item) => item(app));

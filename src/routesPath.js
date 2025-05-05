@@ -5,6 +5,7 @@ const routes = {
   addUserPath: () => '/add-user',
   coursesPath: () => '/courses',
   addCoursePath: () => '/add-courses',
+  loginPath: () => '/login',
 };
 
 export default routes;
