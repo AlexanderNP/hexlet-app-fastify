@@ -9,6 +9,7 @@ import controllers from "./routes/index.js";
 
 const app = fastify();
 const port = 3000;
+const host = '0.0.0.0';
 
 await app.register(view, {
   engine: { pug },
@@ -30,6 +31,9 @@ app.get(routes.homePath(), (req, res) => {
 
 controllers.forEach((item) => item(app));
 
-app.listen({ port }, () => {
+app.listen({ 
+  host,
+  port,
+}, () => {
   console.log(`App listening on port ${port}`);
 });
